@@ -7,8 +7,7 @@
         "cpu": 50,
         "portMappings": [
             {
-                "containerPort": 514,
-                "hostPort": 514
+                "containerPort": 514
             }
         ],
         "memory": 64,
@@ -28,9 +27,9 @@
                 "hostPort": 80
                 }
             ],
-        "memory": 64,
+        "memory": 128,
         "entryPoint": ["/bin/bash", "-c"],
-        "command": ["apt-get update && apt-get -y install netcat wget && echo 'CustomLog | /bin/nc cloudwatchlogs 514 combined' >> /usr/local/apache2/conf/httpd.conf && /usr/local/bin/httpd-foreground"],
+        "command": ["apt-get update && apt-get -y install wget && echo 'CustomLog \"| /usr/bin/logger -t apache2 -n cloudwatchlogs -P 514\" \"%v %h %l %u %t %r %>s %b %{Referer}i %{User-agent}i\"' >> /usr/local/apache2/conf/httpd.conf && echo ServerName `hostname` >> /usr/local/apache2/conf/httpd.conf && /usr/local/bin/httpd-foreground"],
         "essential": true
     }
   ],
